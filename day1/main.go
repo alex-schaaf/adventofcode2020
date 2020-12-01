@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -10,7 +11,7 @@ import (
 func readFileLines(filepath string) []string {
 	content, err := ioutil.ReadFile(filepath)
 	if err != nil {
-		//Do something
+		log.Fatal(err)
 	}
 	lines := strings.Split(string(content), "\n")
 	return lines
