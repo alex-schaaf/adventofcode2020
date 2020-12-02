@@ -39,15 +39,21 @@ func main() {
 		passw = append(passw, splitLine[2])
 	}
 
-	var count int
+	var count1 int
+	var count2 int
 	// validation
 	for i := range lines {
 		isValid := validatePassword(min[i], max[i], character[i], passw[i])
 		if isValid {
-			count++
+			count1++
+		}
+		isValid2 := validatePassword2(min[i], max[i], character[i], passw[i])
+		if isValid2 {
+			count2++
 		}
 	}
-	fmt.Printf("Counted %d valid passwords.\n", count)
+	fmt.Printf("Exercise 1: Counted %d valid passwords.\n", count1)
+	fmt.Printf("Exercise 2: Counted %d valid passwords.\n", count2)
 }
 
 func validatePassword(min int, max int, character string, passw string) bool {
@@ -58,6 +64,19 @@ func validatePassword(min int, max int, character string, passw string) bool {
 		}
 	}
 	if count >= min && count <= max {
+		return true
+	}
+	return false
+}
+
+func validatePassword2(min int, max int, character string, passw string) bool {
+	char := rune(character[0])
+	char1 := rune(passw[min-1])
+	char2 := rune(passw[max-1])
+
+	if char1 == char && char2 != char {
+		return true
+	} else if char1 != char && char2 == char {
 		return true
 	}
 	return false
