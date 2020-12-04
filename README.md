@@ -5,3 +5,4 @@
 1. [Go](https://github.com/alex-schaaf/adventofcode2020/blob/main/day1/main.go), [Nim](https://github.com/alex-schaaf/adventofcode2020/blob/main/day1/main.nim)
 2. [Go](https://github.com/alex-schaaf/adventofcode2020/blob/main/day2/main.go), [Python (Recursive)](https://github.com/alex-schaaf/adventofcode2020/blob/main/day2/python/main.py)
 3. [Go](https://github.com/alex-schaaf/adventofcode2020/blob/main/day3/main.go)
+3. [Python](https://github.com/alex-schaaf/adventofcode2020/blob/main/day4/main.py)
