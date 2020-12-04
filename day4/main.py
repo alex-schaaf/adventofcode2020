@@ -41,69 +41,55 @@ def exercise2(filepath: str):
 
     valid_passports = 0
     for i, passport in enumerate(passports):
-        print(i, passport_strings[i])
         # ---
         byr = passport.get("byr", -1)
         if not (1920 <= int(byr) <= 2002):
-            print("Invalid BYR", byr)
             continue
         # ---
         iyr = passport.get("iyr", -1)
         if not (2010 <= int(iyr) <= 2020):
-            print("Invalid IYR", iyr)
             continue
         # ---
         eyr = passport.get("eyr", -1)
         if not (2020 <= int(eyr) <= 2030):
-            print("Invalid EYR", eyr)
             continue
         # ---
         hgt = passport.get("hgt")
         if hgt is None:
-            print("Invalid HGT", hgt)
             continue
 
         if len(hgt) <= 2:
-            print("Invalid HGT", hgt)
             continue
         hgt_unit = hgt[-2:]
         hgt_val = int(hgt[:-2])
         if hgt_unit == "cm":
             if not 150 <= hgt_val <= 193:
-                print("Invalid HGT", hgt)
                 continue
         elif hgt_unit == "in":
             if not 59 <= hgt_val <= 76:
-                print("Invalid HGT", hgt)
                 continue
         else:
-            print("Invalid HGT", hgt)
             continue
         # ---
         hcl = passport.get("hcl", None)
         if hcl is None:
-            print("Invalid HCL", hcl)
             continue
 
         pattern = "#[a-z0-9]{6}"
         x = re.search(pattern, hcl)
         if x is None:
-            print("Invalid HCL", hcl)
             continue
         # ---
         ecl = passport.get("ecl")
         if ecl not in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]:
-            print("Invalid ECL", ecl)
             continue
         # ---
         pid = passport.get("pid")
         if pid is None:
-            print("Invalid PID", pid)
             continue
         pattern = "[0-9]{9}"
         x = re.search(pattern, pid)
         if x is None:
-            print("Invalid PID", pid)
             continue
 
         valid_passports += 1
