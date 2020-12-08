@@ -41,36 +41,85 @@ func parseInstructions(lines []string) []Instruction {
 	return instructions
 }
 
-var accumulator int
+func switchInstruction(instruciton *Instruction) bool {
+	if instruciton.op == "nop" {
+		instruciton.op = "jmp"
+		return true
+	} else if instruciton.op == "jmp" {
+		instruciton.op = "nop"
+		return true
+	}
+	return false
+}
+
+func mutateInstructionSet(instructions []Instruction, previous int) []Instruction {
+	var newInstructions []Instruction
+	switched := false
+	for i := 0; i < len(instructions); i++ {
+		instruction := instructions[i]
+		if i > previous && !switched {
+			if switchInstruction(&instruction) {
+				switched = true
+				previous = i
+			}
+		}
+		newInstructions = append(newInstructions, instruction)
+	}
+	return newInstructions
+}
 
 func main() {
 	lines := readFileLines("./input", "\n")
 	instructions := parseInstructions(lines)
+	previous := -1
 
-	executing := true
-	index := 0
-
-	for executing {
-		instruction := &instructions[index]
-		fmt.Println(index, instruction)
-		if instruction.executed > 0 {
-			executing = false
-			fmt.Printf("Exercise 1: The accumulator value is %d.\n", accumulator)
-
+	for i := 0; i < len(instructions); i++ {
+		var accumulator int
+		if instructions[i].op == "acc" {
+			continue
 		}
-		if instruction.op == "nop" {
-			instruction.executed++
-			index++
-			continue
-		} else if instruction.op == "acc" {
-			accumulator += instruction.arg
-			instruction.executed++
-			index++
-			continue
-		} else if instruction.op == "jmp" {
-			instruction.executed++
-			index += instruction.arg
-			continue
+
+		var mutatedInstructions []Instruction
+		switched := false
+		for i := 0; i < len(instructions); i++ {
+			instruction := instructions[i]
+			if i > previous && !switched {
+				if switchInstruction(&instruction) {
+					switched = true
+					previous = i
+				}
+			}
+			mutatedInstructions = append(mutatedInstructions, instruction)
+		}
+
+		executing := true
+		index := 0
+		for executing {
+			if index > len(lines)-1 {
+				fmt.Printf("The program has terminated successfully. Accumulator value is %d.", accumulator)
+				break
+			}
+			instruction := &mutatedInstructions[index]
+			// fmt.Println(index, instruction)
+			if instruction.executed > 0 {
+				executing = false
+				// fmt.Println("The program has terminated due to second execution attempt.")
+				// fmt.Printf("Exercise 1: The accumulator value is %d.\n", accumulator)
+			}
+			if instruction.op == "nop" {
+				instruction.executed++
+				index++
+				continue
+			} else if instruction.op == "acc" {
+				accumulator += instruction.arg
+				instruction.executed++
+				index++
+				continue
+			} else if instruction.op == "jmp" {
+				instruction.executed++
+				index += instruction.arg
+				continue
+			}
 		}
 	}
 
