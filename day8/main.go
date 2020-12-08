@@ -13,11 +13,6 @@ func readFileLines(filepath string, split string) []string {
 	return strings.Split(string(content), split)
 }
 
-// acc <arg> 		increases a single global variable accumulator
-// 					after acc, the instruction immediately below is executed next
-// jmp <offset>		jump above or below instruction with offset
-// nop				No OPeration - it does nothing. next instruction is executed next
-
 // Instruction data structure
 type Instruction struct {
 	op       string
@@ -52,33 +47,18 @@ func switchInstruction(instruciton *Instruction) bool {
 	return false
 }
 
-func mutateInstructionSet(instructions []Instruction, previous int) []Instruction {
-	var newInstructions []Instruction
-	switched := false
-	for i := 0; i < len(instructions); i++ {
-		instruction := instructions[i]
-		if i > previous && !switched {
-			if switchInstruction(&instruction) {
-				switched = true
-				previous = i
-			}
-		}
-		newInstructions = append(newInstructions, instruction)
-	}
-	return newInstructions
-}
-
 func main() {
 	lines := readFileLines("./input", "\n")
 	instructions := parseInstructions(lines)
-	previous := -1
 
+	previous := -1
 	for i := 0; i < len(instructions); i++ {
 		var accumulator int
+		// skip unnecessary mutation run
 		if instructions[i].op == "acc" {
 			continue
 		}
-
+		// mutate instruction set
 		var mutatedInstructions []Instruction
 		switched := false
 		for i := 0; i < len(instructions); i++ {
@@ -100,7 +80,6 @@ func main() {
 				break
 			}
 			instruction := &mutatedInstructions[index]
-			// fmt.Println(index, instruction)
 			if instruction.executed > 0 {
 				executing = false
 				// fmt.Println("The program has terminated due to second execution attempt.")
