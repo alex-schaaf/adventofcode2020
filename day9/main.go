@@ -23,6 +23,23 @@ func sumCombinations(arr []int64) []int64 {
 	return sums
 }
 
+func inArray(n int64, arr []int64) bool {
+	for _, num := range arr {
+		if n == num {
+			return true
+		}
+	}
+	return false
+}
+
+func sumArr(arr []int64) int64 {
+	var sum int64
+	for _, num := range arr {
+		sum += num
+	}
+	return sum
+}
+
 func main() {
 	lines := readFileLines("./input", "\n")
 	var numbers []int64
@@ -34,22 +51,37 @@ func main() {
 		numbers = append(numbers, number)
 	}
 
-	// exercise 1
+	var sumRange int = 25
 	for i, number := range numbers {
-		isValid := false
-		if i < 25 {
+		if i < sumRange {
 			continue
 		}
-		sums := sumCombinations(numbers[i-25 : i])
+		sums := sumCombinations(numbers[i-sumRange : i])
+		isValid := inArray(number, sums)
 
-		for _, sum := range sums {
-			if number == sum {
-				isValid = true
-			}
-		}
 		if !isValid {
-			fmt.Printf("Exercise 1: %d is not the sum of any two previous 25 numbers.", number)
-			break
+			fmt.Printf("Exercise 1: %d is not the sum of any two previous %d numbers.\n", number, sumRange)
+
+			for j := 0; j < i; j++ {
+				for size := 2; j+size < len(numbers); size++ {
+					numRange := numbers[j : j+size]
+					sum := sumArr(numRange)
+					if sum == number {
+						fmt.Println(number, numRange)
+						min := numRange[0]
+						max := numRange[0]
+						for _, num := range numRange {
+							if num < min {
+								min = num
+							} else if num > max {
+								max = num
+							}
+						}
+						fmt.Printf("Exercise 2: %d + %d = %d.\n", min, max, min+max)
+						return
+					}
+				}
+			}
 		}
 	}
 }
