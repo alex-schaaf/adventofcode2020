@@ -8,7 +8,8 @@ import (
 	"strings"
 )
 
-func readFileLines(filepath string) []string {
+// ReadFileLines into an array of strings
+func ReadFileLines(filepath string) []string {
 	content, err := ioutil.ReadFile(filepath)
 	if err != nil {
 		log.Fatal(err)
@@ -18,7 +19,7 @@ func readFileLines(filepath string) []string {
 }
 
 func main() {
-	lines := readFileLines("input")
+	lines := ReadFileLines("input")
 	for i, line1 := range lines {
 		num1, _ := strconv.Atoi(line1)
 		for j := i + 1; j < len(lines); j++ {
