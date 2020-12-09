@@ -10,3 +10,4 @@
 6. [Go](https://github.com/alex-schaaf/adventofcode2020/blob/main/day6/main.go)
 7. [Python](https://github.com/alex-schaaf/adventofcode2020/blob/main/day7/main.py)
 8. [Go](https://github.com/alex-schaaf/adventofcode2020/blob/main/day8/main.go)
+9. [Go](https://github.com/alex-schaaf/adventofcode2020/blob/main/day9/main.go)
