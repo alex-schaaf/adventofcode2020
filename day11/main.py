@@ -1,6 +1,8 @@
 from copy import deepcopy
 from typing import Callable, List
 
+coords = ((1, -1), (1, 0), (1, 1), (0, -1), (0, 1), (-1, -1), (-1, 0), (-1, 1))
+
 
 def parse_input(filepath: str, split: str = "\n") -> list:
     with open(filepath, "r") as file:
@@ -8,10 +10,7 @@ def parse_input(filepath: str, split: str = "\n") -> list:
     return content.split(split)
 
 
-coords = ((1, -1), (1, 0), (1, 1), (0, -1), (0, 1), (-1, -1), (-1, 0), (-1, 1))
-
-
-def countNeighbors(seats: list, y: int, x: int) -> int:
+def countNeighbors(seats: List[List[str]], y: int, x: int) -> int:
     occupied = 0
     for dy, dx in coords:
         if y + dy < 0:
@@ -28,7 +27,7 @@ def countNeighbors(seats: list, y: int, x: int) -> int:
     return occupied
 
 
-def countNeighborsSight(seats: list, y: int, x: int) -> int:
+def countNeighborsSight(seats: List[List[str]], y: int, x: int) -> int:
     occupied = 0
     ny = len(seats)
     nx = len(seats[0])
@@ -48,24 +47,18 @@ def countNeighborsSight(seats: list, y: int, x: int) -> int:
 def solve(seats: List[List[str]], count_func: Callable, n_occupied: int) -> int:
     while True:
         newSeats = deepcopy(seats)
-        # print(f"Iteration {i}")
         changed = 0
         for y, row in enumerate(seats):
-            # print("".join(row), end="\t")
             for x, seat in enumerate(row):
                 n = count_func(seats, y, x)
-                # print(n, end="")
                 if seat == "L" and n == 0:
-                    # -> occupied
                     newSeats[y][x] = "#"
                     changed += 1
                     continue
                 if seat == "#" and n >= n_occupied:
-                    # -> empty
                     newSeats[y][x] = "L"
                     changed += 1
                     continue
-            # print("")
         seats = deepcopy(newSeats)
 
         if changed == 0:
