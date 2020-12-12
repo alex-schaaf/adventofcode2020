@@ -45,8 +45,14 @@ class Ship:
         self.facing = to
 
 
+@dataclass
+class Waypoint:
+    x: int
+    y: int
+
+
 if __name__ == "__main__":
-    lines = parse_input("./test")
+    lines = parse_input("./input")
 
     ship = Ship(0, 0, 90, debug=False)
     for instruction in lines:
@@ -64,3 +70,39 @@ if __name__ == "__main__":
 
     manhatten = abs(ship.x) + abs(ship.y)
     print(f"Exercise 1: Manhatten distance is {manhatten}.")
+
+    ship = Ship(0, 0, 90, debug=True)
+    waypoint = Waypoint(10, 1)
+    for instruction in lines:
+        action = instruction[0]
+        value = int(instruction[1:])
+        if ship.debug:
+            print(action, value)
+        if action in "NESW":
+            if action == "N":
+                waypoint.y += value
+            elif action == "E":
+                waypoint.x += value
+            elif action == "S":
+                waypoint.y -= value
+            elif action == "W":
+                waypoint.x -= value
+        elif action in "RL":
+            if action == "R":  # clockwise
+                for _ in range(value // 90):
+                    x, y = waypoint.x, waypoint.y
+                    waypoint.x = y
+                    waypoint.y = -1 * x
+            else:  # L counter-clockwise
+                for _ in range(value // 90):
+                    x, y = waypoint.x, waypoint.y
+                    waypoint.x = -1 * y
+                    waypoint.y = x
+        elif action in "F":
+            ship.x += waypoint.x * value
+            ship.y += waypoint.y * value
+        if ship.debug:
+            print(f"ship: ({ship.x},{ship.y}), wp: ({waypoint.x},{waypoint.y})")
+
+    manhatten = abs(ship.x) + abs(ship.y)
+    print(f"Exercise 2: Manhatten distance is {manhatten}.")
