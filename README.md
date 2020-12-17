@@ -14,3 +14,8 @@
 10. [Python](https://github.com/alex-schaaf/adventofcode2020/blob/main/day10/main.py)
 11. [Python](https://github.com/alex-schaaf/adventofcode2020/blob/main/day11/main.py)
 12. [Python](https://github.com/alex-schaaf/adventofcode2020/blob/main/day12/main.py)
+13.
+14.
+15.
+16. [Python](https://github.com/alex-schaaf/adventofcode2020/blob/main/day16/main.py)
+17. [Python](https://github.com/alex-schaaf/adventofcode2020/blob/main/day17/main.py)
